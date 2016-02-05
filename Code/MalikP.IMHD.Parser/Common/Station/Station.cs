@@ -24,7 +24,7 @@ namespace MalikP.IMHD.Parser.Common
 
         public override bool Equals(object obj)
         {
-            Station o = obj as Station;
+            var o = obj as Station;
             if (o == null)
                 return false;
 

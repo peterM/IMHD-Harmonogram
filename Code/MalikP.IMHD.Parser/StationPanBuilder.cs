@@ -11,7 +11,7 @@ namespace MalikP.IMHD.Parser
     {
         public static StationPan Build(params StationSide[] sides)
         {
-            StationPan pan = new StationPan();
+            var pan = new StationPan();
 
             foreach (var side in sides)
             {

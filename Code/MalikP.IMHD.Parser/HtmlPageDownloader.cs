@@ -17,6 +17,7 @@ namespace MalikP.IMHD.Parser
             var request = WebRequest.Create(url);
             request.Proxy.Credentials = CredentialCache.DefaultNetworkCredentials;
             var webResponse = request.GetResponse();
+
             using (var stream = webResponse.GetResponseStream())
             using (var ms = new MemoryStream())
             {

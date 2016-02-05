@@ -60,19 +60,19 @@ namespace MalikP.IMHD.Parser
             }
         }
 
-        private static List<HtmlNode> GetRows(HtmlNode tbl)
+        static List<HtmlNode> GetRows(HtmlNode tbl)
         {
             var rows = tbl.Descendants("tr").ToList();
             return rows;
         }
 
-        private static List<Station> GetStations(List<HtmlNode> rows)
+        static List<Station> GetStations(List<HtmlNode> rows)
         {
             var tempStations = new List<Station>();
 
             for (var i = 2; i < rows.Count - 1; i++)
             {
-                string link = "";
+                var link = "";
                 var d = rows[i].Descendants("td").FirstOrDefault();
                 var a = d.Descendants("a");
 
@@ -87,7 +87,7 @@ namespace MalikP.IMHD.Parser
                                   .Value;
                 }
 
-                var stationItem = new Station()
+                var stationItem = new Station
                 {
                     Name = GetStationName(rows[i]),
                     Link = link,
@@ -101,61 +101,70 @@ namespace MalikP.IMHD.Parser
             }
 
             tempStations.Add(GetLastStation(rows));
+
             return tempStations;
         }
 
-        private static string GetStationName(HtmlNode node)
+        static string GetStationName(HtmlNode node)
         {
-            string name = "";
+            var name = "";
             try
             {
-                name = node.Descendants("td").FirstOrDefault().Descendants("a").First().InnerText.Replace("&nbsp;", string.Empty);
+                name = node.Descendants("td")
+                           .FirstOrDefault()
+                           .Descendants("a")
+                           .First()
+                           .InnerText
+                           .Replace("&nbsp;", string.Empty);
             }
-            catch
+            catch (Exception)
             {
-                name = node.Descendants("td").FirstOrDefault().InnerText.Replace("&nbsp;", string.Empty);
+                name = node.Descendants("td")
+                           .FirstOrDefault()
+                           .InnerText
+                           .Replace("&nbsp;", string.Empty);
             }
 
             return name;
         }
 
-        private static bool IsRegullarStation(HtmlNode node)
-        {
-            return node.Descendants("td").FirstOrDefault().Descendants("i").Count() == 0;
-        }
+        static bool IsRegullarStation(HtmlNode node) => node.Descendants("td")
+                                                            .FirstOrDefault()
+                                                            .Descendants("i")
+                                                            .Count() == 0;
 
-        private static Station GetLastStation(List<HtmlNode> rows)
+        static Station GetLastStation(List<HtmlNode> rows)
         {
-            var lastStation = new Station()
+            var lastStation = new Station
             {
                 Name = rows[rows.Count - 1].Descendants("td").FirstOrDefault().InnerText.Replace("&nbsp;", string.Empty)
             };
+
             return lastStation;
         }
 
-        private HtmlDocument GetHtmlDocument()
+        HtmlDocument GetHtmlDocument()
         {
-            HtmlDocument stationHtml = new HtmlDocument()
+            var stationHtml = new HtmlDocument
             {
                 OptionDefaultStreamEncoding = Encoding.UTF8
             };
+
             stationHtml.LoadHtml(HtmlPageDownloader.DownloadHtmlPage(Url));
+
             return stationHtml;
         }
 
-        private static List<HtmlNode> GetStationTables(HtmlDocument stationHtml)
+        static List<HtmlNode> GetStationTables(HtmlDocument stationHtml)
         {
-            var table = stationHtml.DocumentNode.Descendants("table")
-                                                .Where(d => d.Attributes != null &&
+            return stationHtml.DocumentNode.Descendants("table")
+                                           .Where(d => d.Attributes != null &&
                                                        d.Attributes.Count > 0 &&
                                                        d.Attributes["width"] != null &&
-                                                       d.Attributes["width"].Value.Contains("100%"))
-                                                .Where(d => d.Attributes != null &&
-                                                            d.Attributes.Count > 0 &&
-                                                            d.Attributes["class"] != null &&
-                                                            d.Attributes["class"].Value.Equals("tabulka", System.StringComparison.InvariantCultureIgnoreCase))
-                                                .ToList();
-            return table;
+                                                       d.Attributes["width"].Value.Contains("100%") &&
+                                                       d.Attributes["class"] != null &&
+                                                       d.Attributes["class"].Value.Equals("tabulka", StringComparison.InvariantCultureIgnoreCase))
+                                           .ToList();
         }
     }
 }

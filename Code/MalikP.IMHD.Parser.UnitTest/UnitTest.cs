@@ -15,7 +15,7 @@ namespace MalikP.IMHD.Parser.UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            StationProcessor stationProcessor = new StationProcessor("ba", "4");
+            var stationProcessor = new StationProcessor("ba", "4");
             var stationsForward = stationProcessor.Process(StationDirection.Forward);
             var stationsBackward = stationProcessor.Process(StationDirection.Backward);
 
@@ -29,7 +29,7 @@ namespace MalikP.IMHD.Parser.UnitTest
             for (int i = 1; i < 213; i++)
             {
                 var line = i.ToString();
-                StationProcessor stationProcessor = new StationProcessor("ba", line);
+                var stationProcessor = new StationProcessor("ba", line);
                 var stationsForward = stationProcessor.Process(StationDirection.Forward);
                 var stationsBackward = stationProcessor.Process(StationDirection.Backward);
 
@@ -38,8 +38,8 @@ namespace MalikP.IMHD.Parser.UnitTest
                 var routeForward = routes.FirstRegullar();
                 var routeBackward = RouteProcessor.Process(stationsBackward, line).FirstRegullar();
 
-                string harmB = ExtractHarmonogramToString(routeBackward);
-                string harmF = ExtractHarmonogramToString(routeForward);
+                var harmB = ExtractHarmonogramToString(routeBackward);
+                var harmF = ExtractHarmonogramToString(routeForward);
 
                 WriteFile(routeForward, harmF);
                 WriteFile(routeBackward, harmB);
@@ -47,7 +47,7 @@ namespace MalikP.IMHD.Parser.UnitTest
             }
         }
 
-        private static void WriteFile(StationRoute route, string harmonogram)
+        static void WriteFile(StationRoute route, string harmonogram)
         {
             if (route == null || string.IsNullOrEmpty(harmonogram))
                 return;
@@ -56,12 +56,12 @@ namespace MalikP.IMHD.Parser.UnitTest
             File.WriteAllText(Path.Combine("Harmonograms", string.Format("{0}-{1}-{2}.TXT", route.Line, route.FromStation.Name.Replace("-", " "), route.ToStation.Name.Replace("-", " "))), harmonogram);
         }
 
-        private string ExtractHarmonogramToString(StationRoute route)
+        string ExtractHarmonogramToString(StationRoute route)
         {
             if (route == null)
                 return "";
 
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             try
             {
                 foreach (var board in route.RouteHarmonogram.Boards)
@@ -70,7 +70,7 @@ namespace MalikP.IMHD.Parser.UnitTest
                     {
                         foreach (var minute in item.Minutes)
                         {
-                            string line = string.Format("{0}-{1}-{2}-{3}-{4}:{5}:00", route.Line, board.Name, route.FromStation.Name.Replace("-", " "), route.ToStation.Name.Replace("-", " "), item.Hour, minute[0].ToString() + minute[1].ToString());
+                            var line = string.Format("{0}-{1}-{2}-{3}-{4}:{5}:00", route.Line, board.Name, route.FromStation.Name.Replace("-", " "), route.ToStation.Name.Replace("-", " "), item.Hour, minute[0].ToString() + minute[1].ToString());
                             builder.AppendLine(line);
                         }
                     }
@@ -78,7 +78,7 @@ namespace MalikP.IMHD.Parser.UnitTest
             }
             catch { }
 
-            string result = builder.ToString();
+            var result = builder.ToString();
             int lastLineIndex = result.LastIndexOf(Environment.NewLine);
 
             if (lastLineIndex > 0)
@@ -97,15 +97,15 @@ namespace MalikP.IMHD.Parser.UnitTest
             foreach (var i in data)
             {
                 var line = "N" + i.ToString();
-                StationProcessor stationProcessor = new StationProcessor("ba", line);
+                var stationProcessor = new StationProcessor("ba", line);
                 var stationsForward = stationProcessor.Process(StationDirection.Forward);
                 var stationsBackward = stationProcessor.Process(StationDirection.Backward);
 
                 var routeForward = RouteProcessor.Process(stationsForward, line).FirstRegullar();
                 var routeBackward = RouteProcessor.Process(stationsBackward, line).FirstRegullar();
 
-                string harmB = ExtractHarmonogramToString(routeBackward);
-                string harmF = ExtractHarmonogramToString(routeForward);
+                var harmB = ExtractHarmonogramToString(routeBackward);
+                var harmF = ExtractHarmonogramToString(routeForward);
 
                 WriteFile(routeForward, harmF);
                 WriteFile(routeBackward, harmB);
@@ -120,7 +120,7 @@ namespace MalikP.IMHD.Parser.UnitTest
             for (int i = 0; i < 213; i++)
             {
                 var line = i.ToString();
-                StationProcessor stationProcessor = new StationProcessor("ba", line);
+                var stationProcessor = new StationProcessor("ba", line);
                 var stationsForward = stationProcessor.Process(StationDirection.Forward);
                 var stationsBackward = stationProcessor.Process(StationDirection.Backward);
 
@@ -141,7 +141,7 @@ namespace MalikP.IMHD.Parser.UnitTest
             foreach (var i in data)
             {
                 var line = "N" + i.ToString();
-                StationProcessor stationProcessor = new StationProcessor("ba", line);
+                var stationProcessor = new StationProcessor("ba", line);
                 var stationsForward = stationProcessor.Process(StationDirection.Forward);
                 var stationsBackward = stationProcessor.Process(StationDirection.Backward);
 
@@ -157,7 +157,7 @@ namespace MalikP.IMHD.Parser.UnitTest
 
         public List<string> ExtractBoardName(StationRoute route)
         {
-            List<string> result = new List<string>();
+            var result = new List<string>();
             try
             {
                 foreach (var board in route.RouteHarmonogram.Boards)

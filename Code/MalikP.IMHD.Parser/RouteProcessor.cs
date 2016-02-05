@@ -14,16 +14,17 @@ namespace MalikP.IMHD.Parser
         {
             if (stations == null || stations.Count == 0)
                 return null;
+
             return CreateRoutes(stations, line);
         }
 
-        private static List<StationRoute> CreateRoutes(List<Station> tempStations, string line)
+        static List<StationRoute> CreateRoutes(List<Station> tempStations, string line)
         {
             var routes = new List<StationRoute>();
 
             foreach (var station in tempStations)
             {
-                StationRoute route = new StationRoute()
+                var route = new StationRoute
                 {
                     FromStation = station,
                     ToStation = tempStations.Last(),

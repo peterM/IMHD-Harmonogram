@@ -25,11 +25,11 @@ namespace MalikP.IMHD.Parser
             if (source == null || source.Count == 0)
                 return route;
 
-            foreach (var rt in source)
+            foreach (var routeItem in source)
             {
-                if (rt.FromStation.IsRegullar)
+                if (routeItem.FromStation.IsRegullar)
                 {
-                    route = rt;
+                    route = routeItem;
                     break;
                 }
             }
