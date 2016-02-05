@@ -56,10 +56,7 @@ namespace MalikP.IMHD.Parser.Common
             }
         }
 
-        public override string ToString()
-        {
-            return string.Format("{0} => {1}", FromStation.ToString(), ToStation.ToString());
-        }
+        public override string ToString() => $"{FromStation.ToString()} => {ToStation.ToString()}";
     }
 
 }

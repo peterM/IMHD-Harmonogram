@@ -26,9 +26,6 @@ namespace MalikP.IMHD.Parser.Common
             }
         }
 
-        public override string ToString()
-        {
-            return string.Format("Hour: {0}, Minutes count: {1}", Hour, Minutes.Count);
-        }
+        public override string ToString() => $"Hour: {Hour}, Minutes count: {Minutes.Count}";
     }
 }

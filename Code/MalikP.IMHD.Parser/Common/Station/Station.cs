@@ -17,10 +17,7 @@ namespace MalikP.IMHD.Parser.Common
             IsRegullar = true;
         }
 
-        public override string ToString()
-        {
-            return string.Format("Name: {0}", Name);
-        }
+        public override string ToString() => $"Name: {Name}";
 
         public override bool Equals(object obj)
         {
@@ -28,18 +25,9 @@ namespace MalikP.IMHD.Parser.Common
             if (o == null)
                 return false;
 
-            if (o.Name.ToUpper().Equals(Name.ToUpper())) //&&
-
-                //o.Link.ToUpper().Equals(Link.ToUpper(), StringComparison.InvariantCultureIgnoreCase))
-                return true;
-            else return false;
+            return string.Equals(o.Name, Name, StringComparison.InvariantCultureIgnoreCase); //&&
         }
 
-        public override int GetHashCode()
-        {
-            return Name.ToUpper().GetHashCode() + Link.ToUpper().GetHashCode();
-        }
-        //public string From { get; set; }
-        //public string To { get; set; }
+        public override int GetHashCode() => Name.ToUpper().GetHashCode() + Link.ToUpper().GetHashCode();
     }
 }
